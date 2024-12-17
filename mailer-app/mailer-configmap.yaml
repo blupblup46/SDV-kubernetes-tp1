@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-env-vars
+  
+data:
+  DATABASE_HOST: bdd-cluster-ip.bdd-namespace.svc.cluster.local 
+  DATABASE_DATABASE: messages

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: mailer-deploy
+
+spec:
+  selector:
+    matchLabels:
+      component: mailer-deployment
+
+  template:
+    metadata:
+      labels:
+        app: mailer-app
+        component: mailer-deployment
+
+    spec:
+      containers:
+      - name: mailer-app
+        image: mailer-app
+        imagePullPolicy: Never
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+        envFrom:
+        - configMapRef:
+            name: app-env-vars
+        -  secretRef:
+            name: app-secrets        
+
+        ports:
+        - containerPort: 8088
+
+        volumeMounts:
+        - name: logger-mount
+          mountPath: /var/log/
+      
+      - name: log-container
+        image: busybox
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        
+        command: ["/bin/sh", "-c", "tail -f -n+1 /var/log/app.log"]
+
+        volumeMounts:
+        - name: logger-mount
+          mountPath: /var/log/
+    
+      volumes:
+      - name: logger-mount
+        emptyDir: {}
+      
