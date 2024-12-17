@@ -5,13 +5,12 @@ metadata:
   name: bdd-cluster-ip
   namespace: bdd-namespace
 
-
 spec:
   selector:
-        component: postgres-container
+    component: postgres-container
 
   type: ClusterIP
 
   ports:
-  - port: 5432
-    targetPort: 5432
+    - port: 5432
+      targetPort: 5432

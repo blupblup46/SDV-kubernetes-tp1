@@ -5,11 +5,11 @@ metadata:
   name: mailer-data
   namespace: bdd-namespace
 
-
 spec:
+
   selector:
     matchLabels:
-     component: postgres-container
+      component: postgres-container
 
   template:
     metadata:
@@ -19,28 +19,29 @@ spec:
 
     spec:
       containers:
-      - name: postgres-container
-        image: postgres:latest
+      
+        - name: postgres-container
+          image: postgres:latest
 
-        envFrom:
-        - configMapRef:
-            name: data-env-vars
-        -  secretRef:
-            name: data-secrets 
+          envFrom:
+            - configMapRef:
+                name: data-env-vars
+            - secretRef:
+                name: data-secrets
 
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 
-        ports:
-        - containerPort: 5432
+          ports:
+            - containerPort: 5432
 
-        volumeMounts:
-        - name: mailer-data
-          mountPath: /var/lib/postgresql/data
+          volumeMounts:
+            - name: mailer-data
+              mountPath: /var/lib/postgresql/data
 
       volumes:
-      - name: mailer-data
-        persistentVolumeClaim:
-          claimName: mailer-claim
+        - name: mailer-data
+          persistentVolumeClaim:
+            claimName: mailer-claim

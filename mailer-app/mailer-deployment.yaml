@@ -17,41 +17,41 @@ spec:
 
     spec:
       containers:
-      - name: mailer-app
-        image: mailer-app
-        imagePullPolicy: Never
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-
-        envFrom:
-        - configMapRef:
-            name: app-env-vars
-        -  secretRef:
-            name: app-secrets        
-
-        ports:
-        - containerPort: 8088
-
-        volumeMounts:
-        - name: logger-mount
-          mountPath: /var/log/
       
-      - name: log-container
-        image: busybox
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        
-        command: ["/bin/sh", "-c", "tail -f -n+1 /var/log/app.log"]
+        - name: mailer-app
+          image: mailer-app
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 
-        volumeMounts:
-        - name: logger-mount
-          mountPath: /var/log/
-    
+          envFrom:
+            - configMapRef:
+                name: app-env-vars
+            - secretRef:
+                name: app-secrets
+
+          ports:
+            - containerPort: 8088
+
+          volumeMounts:
+            - name: logger-mount
+              mountPath: /var/log/
+
+        - name: log-container
+          image: busybox
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+          command: ["/bin/sh", "-c", "tail -f -n+1 /var/log/app.log"]
+
+          volumeMounts:
+            - name: logger-mount
+              mountPath: /var/log/
+
       volumes:
-      - name: logger-mount
-        emptyDir: {}
-      
+        - name: logger-mount
+          emptyDir: {}

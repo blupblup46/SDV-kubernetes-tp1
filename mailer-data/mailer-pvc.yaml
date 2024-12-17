@@ -7,7 +7,6 @@ metadata:
   labels:
     app: mailer-app
 
-
 spec:
   storageClassName: local-path
   accessModes:

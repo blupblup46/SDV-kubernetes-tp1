@@ -5,7 +5,6 @@ metadata:
   name: data-env-vars
   namespace: bdd-namespace
 
-  
 data:
   POSTGRES_DB: messages
   PGDATA: /appdb
